@@ -140,11 +140,12 @@ export default class ScrollBehavior {
   }
 
   _savePosition(key, element) {
-    this._stateStorage.save(
-      this._getCurrentLocation(),
-      key,
-      [scrollLeft(element), scrollTop(element)],
-    );
+    if(!window.scrollBehaviorEnabled) {
+      return;
+    }
+    let position = [(0, _scrollLeft2.default)(element), (0, _scrollTop2.default)(element)];
+    window.scrollBehaviorPosition = position;
+    this._stateStorage.save(this._getCurrentLocation(), key, position);
   }
 
   _updateWindowScroll(prevContext, context) {
